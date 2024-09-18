@@ -36,6 +36,19 @@ order by 2 desc, 1 desc
 limit 3
 
 -- regexp: 
+--regexp_matches: 'g' for multiple matches 
+with cte as (
+    SELECT regexp_matches(tweet, '(#[A-Za-z0-9]+)', 'g') as hashtag 
+    from tweets )
+
+
+select hashtag, count(*) as count 
+from cte 
+group by 1 
+order by count desc, 1 desc 
+limit 3
+
+
 --regexp only return first item not items
 
 with cte as (select substring(tweet, '#[\w]+') as tag,  (regexp_match(tweet, '(#([A-Za-z0-9_]+))'))[1] as reg, count(*) as cnt
